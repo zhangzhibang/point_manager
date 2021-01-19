@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzb.dao.AdProjectDao">
+<cache></cache>
+    <resultMap type="com.zzb.entity.AdProject" id="AdProjectMap">
+        <result property="proid" column="ProID" jdbcType="INTEGER"/>
+        <result property="pronum" column="ProNum" jdbcType="OTHER"/>
+        <result property="proname" column="ProName" jdbcType="OTHER"/>
+        <result property="prouserid" column="ProUserID" jdbcType="OTHER"/>
+        <result property="prousername" column="ProUserName" jdbcType="OTHER"/>
+        <result property="deptid" column="DeptID" jdbcType="OTHER"/>
+        <result property="deptname" column="DeptName" jdbcType="OTHER"/>
+        <result property="year" column="Year" jdbcType="OTHER"/>
+        <result property="budgetamount" column="BudgetAmount" jdbcType="NUMERIC"/>
+        <result property="createdatetime" column="CreateDateTime" jdbcType="TIMESTAMP"/>
+        <result property="createuser" column="CreateUser" jdbcType="OTHER"/>
+        <result property="validflag" column="ValidFlag" jdbcType="OTHER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="AdProjectMap">
+        select
+          ProID, ProNum, ProName, ProUserID, ProUserName, DeptID, DeptName, Year, BudgetAmount, CreateDateTime, CreateUser, ValidFlag
+        from dbo.AD_Project
+        where ProNum = #{pronum}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="AdProjectMap">
+        select
+          ProID, ProNum, ProName, ProUserID, ProUserName, DeptID, DeptName, Year, BudgetAmount, CreateDateTime, CreateUser, ValidFlag
+        from dbo.AD_Project
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="AdProjectMap">
+        select
+        ProID, ProNum, ProName, ProUserID, ProUserName, DeptID, DeptName, Year, BudgetAmount, CreateDateTime,
+        CreateUser, ValidFlag
+        from dbo.AD_Project
+        <where>
+            <if test="proid != null">
+                and ProID = #{proid}
+            </if>
+            <if test="pronum != null">
+                and ProNum like '%${pronum}%'
+            </if>
+            <if test="proname != null">
+                and ProName like '%${proname}%'
+            </if>
+            <if test="prouserid != null">
+                and ProUserID = #{prouserid}
+            </if>
+            <if test="prousername != null">
+                and ProUserName like '%${prousername}%'
+            </if>
+            <if test="deptid != null">
+                and DeptID = #{deptid}
+            </if>
+            <if test="deptname != null">
+                and DeptName like '%${deptname}%'
+            </if>
+            <if test="year != null">
+                and Year = #{year}
+            </if>
+            <if test="budgetamount != null">
+                and BudgetAmount = #{budgetamount}
+            </if>
+            <if test="createdatetime != null">
+                and CreateDateTime = #{createdatetime}
+            </if>
+            <if test="createuser != null">
+                and CreateUser = #{createuser}
+            </if>
+            <if test="validflag != null">
+                and ValidFlag = #{validflag}
+            </if>
+
+
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="pronum" useGeneratedKeys="true">
+        insert into dbo.AD_Project(ProID, ProName, ProUserID, ProUserName, DeptID, DeptName, Year, BudgetAmount, CreateDateTime, CreateUser, ValidFlag)
+        values (#{proid}, #{proname}, #{prouserid}, #{prousername}, #{deptid}, #{deptname}, #{year}, #{budgetamount}, #{createdatetime}, #{createuser}, #{validflag}})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update dbo.AD_Project
+        <set>
+            <if test="pronum != null">
+                ProNum = #{pronum} ,
+            </if>
+            <if test="proname != null">
+                ProName = #{proname},
+            </if>
+            <if test="prouserid != null">
+                ProUserID = #{prouserid},
+            </if>
+            <if test="prousername != null">
+                ProUserName = #{prousername},
+            </if>
+            <if test="deptid != null">
+                DeptID = #{deptid},
+            </if>
+            <if test="deptname != null">
+                DeptName = #{deptname},
+            </if>
+            <if test="year != null">
+                Year = #{year},
+            </if>
+            <if test="budgetamount != null">
+                BudgetAmount = #{budgetamount},
+            </if>
+            <if test="createdatetime != null">
+                CreateDateTime = #{createdatetime},
+            </if>
+            <if test="createuser != null">
+                CreateUser = #{createuser},
+            </if>
+            <if test="validflag != null">
+                ValidFlag = #{validflag},
+            </if>
+
+
+        </set>
+        where   ProID = #{proid}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from dbo.AD_Project where ProNum = #{pronum}
+    </delete>
+
+</mapper>

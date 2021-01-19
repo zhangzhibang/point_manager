@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzb.dao.StUserstageDao">
+
+    <resultMap id="BaseResultMap" type="com.zzb.entity.StUserstage">
+        <!--@Table ST_UserStage-->
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="projectnum" column="ProjectNum" jdbcType="VARCHAR"/>
+        <result property="sfid" column="SFid" jdbcType="VARCHAR"/>
+        <result property="deptname" column="DeptName" jdbcType="VARCHAR"/>
+        <result property="stagenum" column="StageNum" jdbcType="VARCHAR"/>
+        <result property="stageradio" column="StageRadio" jdbcType="NUMERIC"/>
+        <result property="username" column="UseName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+            id, ProjectNum, SFid, DeptName, StageNum, StageRadio
+        from dbo.ST_UserStage
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+            id, ProjectNum, SFid, DeptName, StageNum, StageRadio
+        from dbo.ST_UserStage
+                 limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+        id, ProjectNum, SFid, DeptName, StageNum, StageRadio
+        from dbo.ST_UserStage
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="projectnum != null and projectnum != ''">
+                and ProjectNum = #{projectnum}
+            </if>
+            <if test="sfid != null and sfid != ''">
+                and SFid = #{sfid}
+            </if>
+            <if test="deptname != null and deptname != ''">
+                and DeptName = #{deptname}
+            </if>
+            <if test="stagenum != null and stagenum != ''">
+                and StageNum = #{stagenum}
+            </if>
+            <if test="stageradio != null">
+                and StageRadio = #{stageradio}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="getProjectCountByYear" resultType="com.zzb.entity.projectUserPO">
+
+        select count(distinct(a.ProjectNum)) as projectCount,SFid FROM ST_ProjectStage a,ST_UserStage b
+        where a.ProjectStage='P1'and a.ProjectNum=b.ProjectNum
+          and a.ProjectStage=b.StageNum and a.StartDate &gt; #{startYear}+'-01-01'
+        and a.StartDate &lt;#{endYear}+'-01-01'  group by a.ProjectNum,SFid
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into dbo.ST_UserStage(ProjectNum, SFid, DeptName, StageNum, StageRadio)
+        values (#{projectnum}, #{sfid}, #{deptname}, #{stagenum}, #{stageradio})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update dbo.ST_UserStage
+        <set>
+            <if test="projectnum != null and projectnum != ''">
+                ProjectNum = #{projectnum},
+            </if>
+            <if test="sfid != null and sfid != ''">
+                SFid = #{sfid},
+            </if>
+            <if test="deptname != null and deptname != ''">
+                DeptName = #{deptname},
+            </if>
+            <if test="stagenum != null and stagenum != ''">
+                StageNum = #{stagenum},
+            </if>
+            <if test="stageradio != null">
+                StageRadio = #{stageradio},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from dbo.ST_UserStage where id = #{id}
+    </delete>
+
+</mapper>

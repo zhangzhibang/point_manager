@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzb.dao.StProjectstageDao">
+
+    <resultMap id="BaseResultMap" type="com.zzb.entity.StProjectstage">
+        <!--@Table ST_ProjectStage-->
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="projectnum" column="ProjectNum" jdbcType="VARCHAR"/>
+        <result property="projectstage" column="ProjectStage" jdbcType="VARCHAR"/>
+        <result property="stageradio" column="StageRadio" jdbcType="NUMERIC"/>
+        <result property="startdate" column="StartDate" jdbcType="TIMESTAMP"/>
+        <result property="enddate" column="EndDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          id, ProjectNum, ProjectStage, StageRadio, StartDate, EndDate
+        from dbo.ST_ProjectStage
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          id, ProjectNum, ProjectStage, StageRadio, StartDate, EndDate
+        from dbo.ST_ProjectStage
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          id, ProjectNum, ProjectStage, StageRadio, StartDate, EndDate
+        from dbo.ST_ProjectStage
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="projectnum != null and projectnum != ''">
+                and ProjectNum = #{projectnum}
+            </if>
+            <if test="projectstage != null and projectstage != ''">
+                and ProjectStage = #{projectstage}
+            </if>
+            <if test="stageradio != null">
+                and StageRadio = #{stageradio}
+            </if>
+            <if test="startdate != null">
+                and StartDate = #{startdate}
+            </if>
+            <if test="enddate != null">
+                and EndDate = #{enddate}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into dbo.ST_ProjectStage(ProjectNum, ProjectStage, StageRadio, StartDate, EndDate)
+        values (#{projectnum}, #{projectstage}, #{stageradio}, #{startdate}, #{enddate})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update dbo.ST_ProjectStage
+        <set>
+            <if test="projectnum != null and projectnum != ''">
+                ProjectNum = #{projectnum},
+            </if>
+            <if test="projectstage != null and projectstage != ''">
+                ProjectStage = #{projectstage},
+            </if>
+            <if test="stageradio != null">
+                StageRadio = #{stageradio},
+            </if>
+            <if test="startdate != null">
+                StartDate = #{startdate},
+            </if>
+            <if test="enddate != null">
+                EndDate = #{enddate},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from dbo.ST_ProjectStage where id = #{id}
+    </delete>
+
+</mapper>
