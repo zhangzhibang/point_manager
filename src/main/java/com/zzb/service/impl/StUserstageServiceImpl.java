@@ -1,10 +1,7 @@
 package com.zzb.service.impl;
 
-import com.zzb.entity.InformationPO;
-import com.zzb.entity.StUserstage;
+import com.zzb.entity.*;
 import com.zzb.dao.StUserstageDao;
-import com.zzb.entity.UserPointVO;
-import com.zzb.entity.projectUserPO;
 import com.zzb.service.StProjectaboutService;
 import com.zzb.service.StUserstageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,6 +108,42 @@ public class StUserstageServiceImpl implements StUserstageService {
         HashSet<UserPointVO> totallist = new HashSet<UserPointVO>(userPointVOList);
         ArrayList<UserPointVO> userPointVOS = new ArrayList<>(totallist);
         return userPointVOS;
+    }
+
+    /**
+     * 获取部门积分总计
+     * @return
+     */
+    @Override
+    public List<DepPointVO> getDepPointList() {
+        //TODO 增加查询部门项目数量SQL以及相关文件，整个得到部门报表
+        return stUserstageDao.getDepPointList();
+    }
+
+    /**
+     * 查询部门项目总计
+     * @return
+     */
+    @Override
+    public List<DepPointVO> getDepProjectCountList() {
+        return stUserstageDao.getDepProjectCountList();
+    }
+
+    /**
+     * 整个部门积分和项目数
+     * @param DepName
+     * @param list
+     * @return
+     */
+    @Override
+    public Integer getDepCount(String DepName, List<DepPointVO> list){
+        List<DepPointVO> collect = list.stream().filter(item -> {
+            return item.getDeptName().equals(DepName);
+        }).collect(Collectors.toList());
+        if(!(collect.size()<0)&&!(collect.isEmpty())&&(collect!=null)){
+            return collect.get(0).getProjectCount();
+        }
+        return null;
     }
 
     /**

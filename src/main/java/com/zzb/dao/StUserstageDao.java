@@ -1,5 +1,6 @@
 package com.zzb.dao;
 
+import com.zzb.entity.DepPointVO;
 import com.zzb.entity.StUserstage;
 import com.zzb.entity.projectUserPO;
 import org.apache.ibatis.annotations.Mapper;
@@ -51,6 +52,18 @@ public interface StUserstageDao {
      * @return 对象列表
      */
     List<StUserstage> queryAll(StUserstage stUserstage);
+
+    /**
+     * 查询部门积分总计
+     * @return
+     */
+    List<DepPointVO> getDepPointList();
+
+    /**
+     * 查询部门项目总计
+     */
+    List<DepPointVO> getDepProjectCountList();
+
 
     /**
      * 新增数据

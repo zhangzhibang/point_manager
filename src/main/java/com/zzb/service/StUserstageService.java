@@ -1,5 +1,6 @@
 package com.zzb.service;
 
+import com.zzb.entity.DepPointVO;
 import com.zzb.entity.StUserstage;
 import com.zzb.entity.UserPointVO;
 import com.zzb.entity.projectUserPO;
@@ -63,6 +64,29 @@ public interface StUserstageService {
     boolean deleteById(Integer id);
 
 
+    /**
+     * 个人积分总计
+     * @return
+     */
     List<UserPointVO> getUserPoint();
+
+    /**
+     * 部门积分总计
+     * @return
+     */
+    List<DepPointVO> getDepPointList();
+
+    /**
+     * 查询部门项目总计
+     */
+    List<DepPointVO> getDepProjectCountList();
+
+    /**
+     * 整合项目
+     * @param DepName
+     * @param list
+     * @return
+     */
+    Integer getDepCount(String DepName,List<DepPointVO> list);
 
 }

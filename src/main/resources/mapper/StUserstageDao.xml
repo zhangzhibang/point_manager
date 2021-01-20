@@ -71,6 +71,20 @@
         values (#{projectnum}, #{sfid}, #{deptname}, #{stagenum}, #{stageradio})
     </insert>
 
+    <select id="getDepPointList" resultType="com.zzb.entity.DepPointVO">
+        SELECT DeptName,SUM(a.PointBase*b.StageRadio*c.StageRadio) as totalPoint
+        FROM [Chint.Oa.WorkFlow.lvElecCenter].[dbo].[ST_ProjectAbout] a
+            left join ST_ProjectStage b on a.ProjectNum=b.ProjectNum
+            join ST_UserStage c on b.ProjectStage=c.StageNum  where a.ProjectNum=c.ProjectNum group by DeptName
+    </select>
+<!--TODO增加部门项目数量SQL-->
+
+    <select id="getDepProjectCountList" resultType="com.zzb.entity.DepPointVO">
+        select count(distinct(a.ProjectNum)) as projectCount,DeptName FROM
+        ST_ProjectStage a,ST_UserStage b  where a.ProjectNum=b.ProjectNum
+        and a.ProjectStage=b.StageNum group by a.ProjectNum,DeptName
+    </select>
+
     <!--通过主键修改数据-->
     <update id="update">
         update dbo.ST_UserStage
