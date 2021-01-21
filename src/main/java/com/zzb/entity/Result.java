@@ -27,6 +27,13 @@ public class Result implements Serializable {
         result.setData(data);
         return  result;
     }
+    public static Result success(ResultCode resultCode,Object data){
+        Result result = new Result();
+        result.setCode(resultCode.getCode());
+        result.setMessage(result.getMessage());
+        result.setData(data);
+        return  result;
+    }
 
     public static Result failure(ResultCode resultCode){
         Result result = new Result();

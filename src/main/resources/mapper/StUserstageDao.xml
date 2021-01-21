@@ -67,8 +67,8 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into dbo.ST_UserStage(ProjectNum, SFid, DeptName, StageNum, StageRadio)
-        values (#{projectnum}, #{sfid}, #{deptname}, #{stagenum}, #{stageradio})
+        insert into dbo.ST_UserStage(ProjectNum, SFid, DeptName, StageNum, StageRadio,UserName)
+        values (#{projectnum}, #{sfid}, #{deptname}, #{stagenum}, #{stageradio},#{UserName})
     </insert>
 
     <select id="getDepPointList" resultType="com.zzb.entity.DepPointVO">

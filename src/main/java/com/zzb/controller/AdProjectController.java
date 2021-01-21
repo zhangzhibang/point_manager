@@ -3,6 +3,7 @@ package com.zzb.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zzb.entity.AdProject;
+import com.zzb.entity.Result;
 import com.zzb.service.AdProjectService;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,11 +39,11 @@ public class AdProjectController {
  */
     @RequestMapping("selectAll")
     @CrossOrigin
-    public PageInfo selectAll(  AdProject adProject,@RequestParam(required = false, defaultValue = "1", value = "pageNum") int pageNum) {
-        PageHelper.startPage(pageNum, 10);
+    public Result selectAll(AdProject adProject/*, @RequestParam(required = false, defaultValue = "1", value = "pageNum") int pageNum*/) {
+        //PageHelper.startPage(pageNum, 10);
         List<AdProject> list=this.adProjectService.queryAll(adProject);
-        PageInfo pageInfo = new PageInfo<>(list);
-        return pageInfo;
+        //PageInfo pageInfo = new PageInfo<>(list);
+        return Result.success(list);
     }
 
     /**

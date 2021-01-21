@@ -8,6 +8,7 @@ public enum ResultCode {
     成功
      */
     SUCCESS(200,"成功"),
+    RESULT_NULL(201,"查询成功但查询结果为null"),
     /*
     参数相关问题。
      */

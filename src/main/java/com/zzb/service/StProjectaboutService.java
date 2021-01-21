@@ -1,6 +1,7 @@
 package com.zzb.service;
 
 import com.zzb.entity.InformationPO;
+import com.zzb.entity.InformationVO;
 import com.zzb.entity.StProjectabout;
 import java.util.List;
 
@@ -31,6 +32,8 @@ public interface StProjectaboutService {
 
 
     List<InformationPO> queryAllInformation();
+
+    List<InformationVO>  sortList(List<InformationPO> list);
 
     /**
      * 新增数据

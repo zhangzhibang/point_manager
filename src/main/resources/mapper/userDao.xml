@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzb.dao.userDao">
+
+    <resultMap id="BaseResultMap" type="com.zzb.entity.user">
+        <!--@Table HR_KQUserList-->
+        <result property="userid" column="UserID" jdbcType="OTHER"/>
+        <result property="username" column="UserName" jdbcType="OTHER"/>
+        <result property="userkqid" column="UserKQID" jdbcType="OTHER"/>
+        <result property="deptname" column="DeptName" jdbcType="OTHER"/>
+        <result property="dtptid" column="DtptID" jdbcType="OTHER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          UserID, UserName, UserKQID, DeptName, DtptID
+        from dbo.HR_KQUserList
+        where UserID = #{userid}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          UserID, UserName, UserKQID, DeptName, DtptID
+        from dbo.HR_KQUserList
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          UserID, UserName, UserKQID, DeptName, DtptID
+        from dbo.HR_KQUserList
+        <where>
+            <if test="userid != null">
+                and UserID = #{userid}
+            </if>
+            <if test="username != null">
+                and UserName = #{username}
+            </if>
+            <if test="userkqid != null">
+                and UserKQID = #{userkqid}
+            </if>
+            <if test="deptname != null">
+                and DeptName = #{deptname}
+            </if>
+            <if test="dtptid != null">
+                and DtptID = #{dtptid}
+            </if>
+        </where>
+    </select>
+
+    <select id="getSFidByName" resultType="String">
+        SELECT [SFID]
+        FROM [Chint.Oa.WorkFlow.lvElecCenter].[dbo].[HR_LeaveData_new] where UserName=#{username}
+    </select>
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="userid" useGeneratedKeys="true">
+        insert into dbo.HR_KQUserList(UserName, UserKQID, DeptName, DtptID)
+        values (#{username}, #{userkqid}, #{deptname}, #{dtptid})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update dbo.HR_KQUserList
+        <set>
+            <if test="username != null">
+                UserName = #{username},
+            </if>
+            <if test="userkqid != null">
+                UserKQID = #{userkqid},
+            </if>
+            <if test="deptname != null">
+                DeptName = #{deptname},
+            </if>
+            <if test="dtptid != null">
+                DtptID = #{dtptid},
+            </if>
+        </set>
+        where UserID = #{userid}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from dbo.HR_KQUserList where UserID = #{userid}
+    </delete>
+
+</mapper>

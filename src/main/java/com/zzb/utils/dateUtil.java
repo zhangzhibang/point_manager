@@ -13,20 +13,35 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class dateUtil {
+    /**
+     * 工具类，传入一组时间数据，判断项目在每年的时间占整个项目时间的比例
+     * @param list
+     * @return
+     * @throws ParseException
+     */
     public static RadioPO  SetRadio(List<InformationPO> list) throws ParseException {
         RadioPO radioPO=new RadioPO();
         DateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
         Calendar Afterdate = Calendar.getInstance();
         Calendar Beforedate = Calendar.getInstance();
+        int index=0;
         double radio2018=0.0;
         double radio2019=0.0;
         double radio2020=0.0;
         BigDecimal a;//除数
         BigDecimal b;//被除数
+        for (int i=0;i<list.size();i++){
+            Beforedate.setTime(list.get(i).getStartdate());
+            if (Beforedate.get(Calendar.YEAR)==2099) {
+                index=i-1;
+                break;
+            }
+
+        }
         if(!list.isEmpty()){
-            Long countTime = daysBetween(list.get(0).getStartdate(), list.get(list.size() - 1).getEnddate());
+            Long countTime = daysBetween(list.get(0).getStartdate(), list.get(index==0?list.size() - 1:index).getEnddate());
             b=new BigDecimal(String.valueOf(countTime));
-            Afterdate.setTime(list.get(list.size() - 1).getEnddate());
+            Afterdate.setTime(list.get(index==0?list.size() - 1:index).getEnddate());
             Beforedate.setTime(list.get(0).getStartdate());
             if(Beforedate.get(Calendar.YEAR)==2018){
                 if(Afterdate.get(Calendar.YEAR)==2018){
@@ -80,7 +95,6 @@ public class dateUtil {
         cal.setTime(bdate);
         long time2 = cal.getTimeInMillis();
         long between_days=(time2-time1)/(1000*3600*24);
-        //System.out.println(between_days);
         return between_days;
     }
 

@@ -1,6 +1,9 @@
 package com.zzb;
 
+import com.zzb.entity.InformationPO;
+import com.zzb.entity.InformationVO;
 import com.zzb.entity.UserPointVO;
+import com.zzb.service.StProjectaboutService;
 import com.zzb.service.StUserstageService;
 import com.zzb.utils.dateUtil;
 import org.junit.jupiter.api.Test;
@@ -17,11 +20,12 @@ import java.util.List;
 @SpringBootTest
 class PointManagerApplicationTests {
 @Autowired
-    StUserstageService stUserstageService;
+StProjectaboutService stProjectaboutService;
     @Test
     void contextLoads() throws ParseException {
-        List<UserPointVO> userPoint = stUserstageService.getUserPoint();
-        System.out.println(userPoint);
+        List<InformationPO> list = stProjectaboutService.queryAllInformation();
+         List<InformationVO> informationVOS = stProjectaboutService.sortList(list);
+        System.out.println(informationVOS);
     }
 
 }

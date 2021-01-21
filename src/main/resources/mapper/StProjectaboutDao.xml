@@ -53,7 +53,7 @@
         left join ST_ProjectStage b on a.ProjectNum=b.ProjectNum
             join ST_UserStage c on b.ProjectStage=c.StageNum
             join AD_Project d on a.ProjectNum=d.ProNum
-        where a.ProjectNum=c.ProjectNum
+        where a.ProjectNum=c.ProjectNum order by ProjectNum
 
     </select>
 

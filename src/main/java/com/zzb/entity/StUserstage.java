@@ -1,5 +1,8 @@
 package com.zzb.entity;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.io.Serializable;
 
 /**
@@ -8,6 +11,8 @@ import java.io.Serializable;
  * @author makejava
  * @since 2021-01-15 17:06:34
  */
+@Data
+@Accessors(chain = true)
 public class StUserstage implements Serializable {
     private static final long serialVersionUID = 420662891404116596L;
     
@@ -22,6 +27,7 @@ public class StUserstage implements Serializable {
     private String stagenum;
     
     private Double stageradio;
+    private String UserName;
 
 
     public Integer getId() {
