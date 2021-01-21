@@ -15,12 +15,15 @@ import java.util.stream.Collectors;
 public class dateUtil {
     /**
      * 工具类，传入一组时间数据，判断项目在每年的时间占整个项目时间的比例
-     * @param list
+     * @param
      * @return
      * @throws ParseException
      */
-    public static RadioPO  SetRadio(List<InformationPO> list) throws ParseException {
+    public static RadioPO  SetRadio(List<InformationPO> all) throws ParseException {
         RadioPO radioPO=new RadioPO();
+        List<InformationPO> list = all.stream().filter(item -> {
+            return item.getStartdate() != null && item.getEnddate() != null;
+        }).collect(Collectors.toList());
         DateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
         Calendar Afterdate = Calendar.getInstance();
         Calendar Beforedate = Calendar.getInstance();
@@ -30,18 +33,18 @@ public class dateUtil {
         double radio2020=0.0;
         BigDecimal a;//除数
         BigDecimal b;//被除数
-        for (int i=0;i<list.size();i++){
-            Beforedate.setTime(list.get(i).getStartdate());
-            if (Beforedate.get(Calendar.YEAR)==2099) {
-                index=i-1;
-                break;
-            }
-
-        }
+//        for (int i=0;i<list.size();i++){
+//            Afterdate.setTime(list.get(i).getStartdate());
+//            if (Afterdate.get(Calendar.YEAR)==2099) {
+//                index=i-1;
+//                break;
+//            }
+//
+//        }
         if(!list.isEmpty()){
-            Long countTime = daysBetween(list.get(0).getStartdate(), list.get(index==0?list.size() - 1:index).getEnddate());
+            Long countTime = daysBetween(list.get(0).getStartdate(), list.get(list.size() - 1).getEnddate());
             b=new BigDecimal(String.valueOf(countTime));
-            Afterdate.setTime(list.get(index==0?list.size() - 1:index).getEnddate());
+            Afterdate.setTime(list.get(list.size() - 1).getEnddate());
             Beforedate.setTime(list.get(0).getStartdate());
             if(Beforedate.get(Calendar.YEAR)==2018){
                 if(Afterdate.get(Calendar.YEAR)==2018){

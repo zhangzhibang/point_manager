@@ -16,6 +16,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("stProjectstage")
+@CrossOrigin
 public class StProjectstageController {
     /**
      * 服务对象

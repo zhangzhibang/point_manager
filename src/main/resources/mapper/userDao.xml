@@ -30,25 +30,9 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="BaseResultMap">
         select
-          UserID, UserName, UserKQID, DeptName, DtptID
-        from dbo.HR_KQUserList
-        <where>
-            <if test="userid != null">
-                and UserID = #{userid}
-            </if>
-            <if test="username != null">
-                and UserName = #{username}
-            </if>
-            <if test="userkqid != null">
-                and UserKQID = #{userkqid}
-            </if>
-            <if test="deptname != null">
-                and DeptName = #{deptname}
-            </if>
-            <if test="dtptid != null">
-                and DtptID = #{dtptid}
-            </if>
-        </where>
+          a.*
+        from dbo.HR_KQUserList a,[HR_LeaveData_new] b
+        where a.UserName=b.UserName
     </select>
 
     <select id="getSFidByName" resultType="String">

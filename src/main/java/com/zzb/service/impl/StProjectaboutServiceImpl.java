@@ -209,27 +209,27 @@ public class StProjectaboutServiceImpl implements StProjectaboutService {
             sum2019+=item.getPoint2019();
             sum2020+=item.getPoint2020();
             if (item.getProjectstage().equals("P1")||item.getProjectstage()=="P1") {
-                System.out.println("P1:"+item.getStageradio());
+                //System.out.println("P1:"+item.getStageradio());
                 informationVO.setP1radio(item.getStageradio());
                 informationVO.setP1userRadio(item.getUradio());
             }
             if (item.getProjectstage().equals("P2")||item.getProjectstage()=="P2") {
-                System.out.println("P2:"+item.getStageradio());
+                //System.out.println("P2:"+item.getStageradio());
                 informationVO.setP2radio(item.getStageradio());
                 informationVO.setP2userRadio(item.getUradio());
             }
             if (item.getProjectstage().equals("P3")||item.getProjectstage()=="P3") {
-                System.out.println("P3:"+item.getStageradio());
+                //System.out.println("P3:"+item.getStageradio());
                 informationVO.setP3radio(item.getStageradio());
                 informationVO.setP3userRadio(item.getUradio());
             }
             if (item.getProjectstage().equals("P4")||item.getProjectstage()=="P4") {
-                System.out.println("P4:"+item.getStageradio());
+                //System.out.println("P4:"+item.getStageradio());
                 informationVO.setP4radio(item.getStageradio());
                 informationVO.setP4userRadio(item.getUradio());
             }
             if (item.getProjectstage().equals("P5")||item.getProjectstage()=="P5") {
-                System.out.println("P5:"+item.getStageradio());
+               // System.out.println("P5:"+item.getStageradio());
                 informationVO.setP5radio(item.getStageradio());
                 informationVO.setP5userRadio(item.getUradio());
             }

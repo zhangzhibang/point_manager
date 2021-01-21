@@ -9,16 +9,15 @@ import com.zzb.utils.dateUtil;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.codehaus.jettison.json.JSONString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * (StProjectabout)表控制层
@@ -28,6 +27,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("stProjectabout")
+@CrossOrigin
 public class StProjectaboutController {
     /**
      * 服务对象
@@ -60,6 +60,7 @@ public class StProjectaboutController {
         Integer pagecount=0;
         List<InformationPO> list = stProjectaboutService.queryAllInformation();
         List<InformationVO> informationVOS = stProjectaboutService.sortList(list);
+        List<InformationVO> collect = informationVOS.stream().sorted(Comparator.comparing(InformationVO::getProjectNum)).collect(Collectors.toList());
         List<InformationVO> subList=new ArrayList<>();
 //        int totalcount=informationVOS.size();
 //        int m=totalcount%pagesize;
@@ -84,17 +85,18 @@ public class StProjectaboutController {
 //
 //            }
 
-        return Result.success(informationVOS);
+        return Result.success(collect);
     }
 
 
     @RequestMapping("/add")
-    public Result addProject(@RequestBody Map<String, Object> map) throws JSONException, ParseException {
+    public Result addProject(@RequestBody String str) throws JSONException, ParseException {
         StUserstage stUserstage = new StUserstage();
+        stUserstage.setShowstatus(1);
         StProjectstage stProjectstage=new StProjectstage();
         StProjectabout stProjectabout=new StProjectabout();
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
-        JSONObject jsonObject=new JSONObject(map.toString());
+        JSONObject jsonObject=new JSONObject(str);
         String proNum= jsonObject.getString("proNum");
         stUserstage.setProjectnum(proNum);
         stProjectabout.setProjectnum(proNum);
@@ -124,17 +126,49 @@ public class StProjectaboutController {
         JSONObject p3cycle=p3.getJSONObject("cycle");
         JSONObject p4cycle=p4.getJSONObject("cycle");
         JSONObject p5cycle=p5.getJSONObject("cycle");
-        Date p1startdate = simpleDateFormat.parse(p1cycle.getString("startdate"));
-        Date p2startdate = simpleDateFormat.parse(p2cycle.getString("startdate"));
-        Date p3startdate = simpleDateFormat.parse(p3cycle.getString("startdate"));
-        Date p4startdate = simpleDateFormat.parse(p4cycle.getString("startdate"));
-        Date p5startdate = simpleDateFormat.parse(p5cycle.getString("startdate"));
-        Date p1enddate = simpleDateFormat.parse(p1cycle.getString("enddate"));
-        Date p2enddate = simpleDateFormat.parse(p2cycle.getString("enddate"));
-        Date p3enddate = simpleDateFormat.parse(p3cycle.getString("enddate"));
-        Date p4enddate = simpleDateFormat.parse(p4cycle.getString("enddate"));
-        Date p5enddate = simpleDateFormat.parse(p5cycle.getString("enddate"));
-        //插入项目相关
+        Date p1startdate = new Date();
+        Date p2startdate = new Date();
+        Date p3startdate = new Date();
+        Date p4startdate = new Date();
+        Date p5startdate = new Date();
+        Date p1enddate = new Date();
+        Date p2enddate = new Date();
+        Date p3enddate = new Date();
+        Date p4enddate = new Date();
+        Date p5enddate = new Date();
+
+        String startdate1=p1cycle.getString("startdate");
+        String startdate2=p2cycle.getString("startdate");
+        String startdate3=p3cycle.getString("startdate");
+        String startdate4=p4cycle.getString("startdate");
+        String startdate5=p5cycle.getString("startdate");
+        String enddate1=p1cycle.getString("enddate");
+        String enddate2=p2cycle.getString("enddate");
+        String enddate3=p3cycle.getString("enddate");
+        String enddate4=p4cycle.getString("enddate");
+        String enddate5=p5cycle.getString("enddate");
+
+        if(startdate1!=null&& !"".equals(startdate1)&&enddate1!=null&&!"".equals(enddate1)){
+            p1startdate=simpleDateFormat.parse(startdate1);
+            p1enddate=simpleDateFormat.parse(enddate1);
+        }
+        if(startdate2!=null&& !"".equals(startdate2)&&enddate2!=null&&!"".equals(enddate2)){
+            p1startdate=simpleDateFormat.parse(startdate2);
+            p1enddate=simpleDateFormat.parse(enddate2);
+        }
+        if(startdate3!=null&& !"".equals(startdate3)&&enddate3!=null&&!"".equals(enddate3)){
+            p1startdate=simpleDateFormat.parse(startdate3);
+            p1enddate=simpleDateFormat.parse(enddate3);
+        }
+        if(startdate4!=null&& !"".equals(startdate4)&&enddate4!=null&&!"".equals(enddate4)){
+            p1startdate=simpleDateFormat.parse(startdate4);
+            p1enddate=simpleDateFormat.parse(enddate4);
+        }
+        if(startdate5!=null&& !"".equals(startdate5)&&enddate5!=null&&!"".equals(enddate5)){
+            p1startdate=simpleDateFormat.parse(startdate5);
+            p1enddate=simpleDateFormat.parse(enddate5);
+        }
+        //插入项目关
         stProjectaboutService.insert(stProjectabout);
         //插入项目阶段相关
         stProjectstage.setProjectstage("P1");
@@ -175,9 +209,11 @@ public class StProjectaboutController {
           if(SFid!=null){
              stUserstage.setUserName(username).setSfid(SFid);
              stUserstage.setDeptname(deptName);
+              stUserstage.setStageradio(0.0);
               for (int j = 1; j <=5; j++) {
                   stUserstage.setStagenum("P"+j);
                   stUserstageService.insert(stUserstage);
+
               }
           }
         }

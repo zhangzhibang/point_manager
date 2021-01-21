@@ -28,7 +28,7 @@ public class StUserstage implements Serializable {
     
     private Double stageradio;
     private String UserName;
-
+    private Integer showstatus;
 
     public Integer getId() {
         return id;
