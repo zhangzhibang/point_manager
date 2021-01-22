@@ -16,10 +16,19 @@ public interface StProjectaboutService {
     /**
      * 通过ID查询单条数据
      *
-     * @param id 主键
+     * @param projectNum 主键
      * @return 实例对象
      */
-    StProjectabout queryById(Integer id);
+    StProjectabout queryByNum(String projectNum);
+
+
+    /**
+     * 通过实体作为筛选条件查询
+     *
+     * @param stProjectabout 实例对象
+     * @return 对象列表
+     */
+    List<StProjectabout> queryAll(StProjectabout stProjectabout);
 
     /**
      * 查询多条数据
@@ -52,11 +61,14 @@ public interface StProjectaboutService {
     StProjectabout update(StProjectabout stProjectabout);
 
     /**
-     * 通过主键删除数据
      *
-     * @param id 主键
+     *
+     *
      * @return 是否成功
      */
-    boolean deleteById(Integer id);
+    int updateByProjrctNum(StProjectabout stProjectabout);
+
+
+    int deleteByNum(String projectNum);
 
 }

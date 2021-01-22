@@ -30,6 +30,11 @@ public class StProjectstageServiceImpl implements StProjectstageService {
         return this.stProjectstageDao.queryById(id);
     }
 
+    @Override
+    public StProjectstage queryByNum(String projectNum,String stage){
+        return stProjectstageDao.queryByNum(projectNum,stage);
+    }
+
     /**
      * 查询多条数据
      *

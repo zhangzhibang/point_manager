@@ -19,6 +19,8 @@ public interface StProjectstageService {
      */
     StProjectstage queryById(Integer id);
 
+    StProjectstage queryByNum(String projectNum,String stage);
+
     /**
      * 查询多条数据
      *

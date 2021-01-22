@@ -25,6 +25,8 @@ public interface StProjectstageDao {
      */
     StProjectstage queryById(Integer id);
 
+    StProjectstage queryByNum(String projectNum,String stage);
+
     /**
      * 查询指定行数据
      *

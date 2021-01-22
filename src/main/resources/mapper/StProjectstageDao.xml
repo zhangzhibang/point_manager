@@ -54,6 +54,13 @@
             </if>
         </where>
     </select>
+    <select id="queryByNum" resultType="com.zzb.entity.StProjectstage">
+        select
+            id, ProjectNum, ProjectStage, StageRadio, StartDate, EndDate
+        from dbo.ST_ProjectStage
+        where ProjectNum = #{projectNum} and ProjectStage=#{stage}
+
+    </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
@@ -61,7 +68,7 @@
         values (#{projectnum}, #{projectstage}, #{stageradio}, #{startdate}, #{enddate})
     </insert>
 
-    <!--通过主键修改数据-->
+    <!--修改数据-->
     <update id="update">
         update dbo.ST_ProjectStage
         <set>
@@ -81,7 +88,7 @@
                 EndDate = #{enddate},
             </if>
         </set>
-        where id = #{id}
+        where ProjectNum = #{projectnum} and ProjectStage=#{projectstage}
     </update>
 
     <!--通过主键删除-->

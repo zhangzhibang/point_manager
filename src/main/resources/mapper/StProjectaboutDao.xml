@@ -10,9 +10,14 @@
         <result property="projectrank" column="ProjectRank" jdbcType="VARCHAR"/>
         <result property="score" column="Score" jdbcType="NUMERIC"/>
         <result property="pointbase" column="PointBase" jdbcType="NUMERIC"/>
+        <result property="showstatus" column="showstatus" jdbcType="INTEGER"/>
     </resultMap>
 
-<!--    <resultMap id="POresultMap" type="com.zzb.entity.InformationPO">-->
+    <update id="deleteByNum">
+        update dbo.ST_ProjectAbout set showstatus=0 where ProjectNum=#{projectNum} and showstatus=1
+    </update>
+
+    <!--    <resultMap id="POresultMap" type="com.zzb.entity.InformationPO">-->
 <!--        <result property="projectnum" column="ProjectNum" jdbcType="VARCHAR"/>-->
 <!--        <result property="projecttype" column="ProjectType" jdbcType="VARCHAR"/>-->
 <!--        <result property="projectrank" column="ProjectRank" jdbcType="VARCHAR"/>-->
@@ -29,11 +34,11 @@
 <!--    </resultMap>-->
 
     <!--查询单个-->
-    <select id="queryById" resultMap="BaseResultMap">
+    <select id="queryByNum" resultMap="BaseResultMap">
         select
-          id, ProjectNum, ProjectType, ProjectRank, Score, PointBase
+          id, ProjectNum, ProjectType, ProjectRank, Score, PointBase,showstatus
         from dbo.ST_ProjectAbout
-        where id = #{id}
+        where ProjectNum = #{projectNum}
     </select>
 
     <!--查询指定行数据-->
@@ -53,7 +58,7 @@
         left join ST_ProjectStage b on a.ProjectNum=b.ProjectNum
             join ST_UserStage c on b.ProjectStage=c.StageNum
             join AD_Project d on a.ProjectNum=d.ProNum
-        where a.ProjectNum=c.ProjectNum order by ProjectNum
+        where a.ProjectNum=c.ProjectNum and a.showstatus=1 and c.showstatus=1 order by ProjectNum
 
     </select>
 
@@ -88,8 +93,8 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into dbo.ST_ProjectAbout(ProjectNum, ProjectType, ProjectRank, Score, PointBase)
-        values (#{projectnum}, #{projecttype}, #{projectrank}, #{score}, #{pointbase})
+        insert into dbo.ST_ProjectAbout(ProjectNum, ProjectType, ProjectRank, Score, PointBase,showstatus)
+        values (#{projectnum}, #{projecttype}, #{projectrank}, #{score}, #{pointbase},1)
     </insert>
 
     <!--通过主键修改数据-->
@@ -114,13 +119,32 @@
         </set>
         where id = #{id}
     </update>
+    <update id="updateByProjrctNum">
+        update dbo.ST_ProjectAbout
+        <set>
+            <if test="projectnum != null and projectnum != ''">
+                ProjectNum = #{projectnum},
+            </if>
+            <if test="projecttype != null and projecttype != ''">
+                ProjectType = #{projecttype},
+            </if>
+            <if test="projectrank != null">
+                ProjectRank = #{projectrank},
+            </if>
+            <if test="score != null">
+                Score = #{score},
+            </if>
+            <if test="pointbase != null">
+                PointBase = #{pointbase},
+            </if>
 
-    <!--通过主键删除-->
-    <delete id="deleteById">
-        delete from dbo.ST_ProjectAbout where id = #{id}
-    </delete>
+        </set>
+        where ProjectNum = #{projectnum} and showstatus=1
+    </update>
 
+    <update id="updateByNum">
 
+    </update>
 
 
 </mapper>

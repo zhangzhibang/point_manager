@@ -9,6 +9,8 @@ public enum ResultCode {
      */
     SUCCESS(200,"成功"),
     RESULT_NULL(201,"查询成功但查询结果为null"),
+    INFORMATION_HAS_EXISTS(205,"信息已存在"),
+    INFORMATION_NOT_EXISTS(204,"信息不存在"),
     /*
     参数相关问题。
      */

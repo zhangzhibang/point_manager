@@ -20,12 +20,14 @@ import java.util.List;
 public interface StUserstageDao {
 
     /**
-     * 通过ID查询单条数据
-     *
-     * @param id 主键
-     * @return 实例对象
+     * 姓名项目号查找对应项目阶段列表
+     * @param username
+     * @param projectnum
+     * @return
      */
-    StUserstage queryById(Integer id);
+    List<StUserstage> queryByNameandProject(String username,String projectnum);
+
+
 
     /**
      * 查询指定行数据
@@ -64,6 +66,7 @@ public interface StUserstageDao {
      */
     List<DepPointVO> getDepProjectCountList();
 
+    int deleteByNameAndNum(String projectNum,String userName);
 
     /**
      * 新增数据
@@ -88,5 +91,6 @@ public interface StUserstageDao {
      * @return 影响行数
      */
     int deleteById(Integer id);
+
 
 }

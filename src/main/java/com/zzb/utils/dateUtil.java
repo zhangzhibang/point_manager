@@ -39,7 +39,6 @@ public class dateUtil {
 //                index=i-1;
 //                break;
 //            }
-//
 //        }
         if(!list.isEmpty()){
             Long countTime = daysBetween(list.get(0).getStartdate(), list.get(list.size() - 1).getEnddate());

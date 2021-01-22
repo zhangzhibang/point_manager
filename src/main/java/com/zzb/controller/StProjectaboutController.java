@@ -5,18 +5,19 @@ import com.zzb.service.StProjectaboutService;
 import com.zzb.service.StProjectstageService;
 import com.zzb.service.StUserstageService;
 import com.zzb.service.userService;
-import com.zzb.utils.dateUtil;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.codehaus.jettison.json.JSONString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -44,13 +45,13 @@ public class StProjectaboutController {
     /**
      * 通过主键查询单条数据
      *
-     * @param id 主键
+     * @param
      * @return 单条数据
      */
-    @GetMapping("selectOne")
-    public StProjectabout selectOne(Integer id) {
-        return this.stProjectaboutService.queryById(id);
-    }
+//    @GetMapping("selectOne")
+//    public StProjectabout selectOne(Integer id) {
+//        return this.stProjectaboutService.queryById(id);
+//    }
 
 
     @GetMapping("selectAll")
@@ -91,15 +92,27 @@ public class StProjectaboutController {
 
     @RequestMapping("/add")
     public Result addProject(@RequestBody String str) throws JSONException, ParseException {
+        List<user> nameList = new ArrayList<>();
         StUserstage stUserstage = new StUserstage();
         stUserstage.setShowstatus(1);
         StProjectstage stProjectstage=new StProjectstage();
-        StProjectabout stProjectabout=new StProjectabout();
+
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
         JSONObject jsonObject=new JSONObject(str);
         String proNum= jsonObject.getString("proNum");
+        Boolean isAdd=jsonObject.getBoolean("isAdd");
+        StProjectabout stProjectabout=new StProjectabout();
+        if(isAdd==false){
+            if(stProjectaboutService.queryByNum(proNum)==null){
+                return Result.failure(ResultCode.INFORMATION_NOT_EXISTS,"项目不存在请添加！");
+            }
+            stProjectabout=stProjectaboutService.queryByNum(proNum);
+        }
         stUserstage.setProjectnum(proNum);
         stProjectabout.setProjectnum(proNum);
+        if(!stProjectaboutService.queryAll(stProjectabout).isEmpty()&&isAdd){
+            return Result.failure(ResultCode.INFORMATION_HAS_EXISTS,"项目已经存在，请勿重复添加！");
+        }
         stProjectstage.setProjectnum(proNum);
         String projectType= jsonObject.getString("projectType");
         stProjectabout.setProjecttype(projectType);
@@ -109,6 +122,7 @@ public class StProjectaboutController {
         stProjectabout.setScore(score);
         Double pointBase= jsonObject.getDouble("pointBase");
         stProjectabout.setPointbase(pointBase);
+        stProjectabout.setShowstatus(1);
         JSONArray usernameList=jsonObject.getJSONArray("usernameList");
         JSONObject proportion=jsonObject.getJSONObject("proportion");
         JSONObject p1=proportion.getJSONObject("p1");
@@ -169,56 +183,175 @@ public class StProjectaboutController {
             p1enddate=simpleDateFormat.parse(enddate5);
         }
         //插入项目关
-        stProjectaboutService.insert(stProjectabout);
+        if(isAdd){
+            stProjectaboutService.insert(stProjectabout);
+        }else {
+            stProjectaboutService.updateByProjrctNum(stProjectabout);
+        }
+
         //插入项目阶段相关
+        if(isAdd==false){
+            stProjectstage= stProjectstageService.queryByNum(proNum,"P1");
+        }
         stProjectstage.setProjectstage("P1");
         stProjectstage.setStageradio(p1radio);
-        stProjectstage.setStartdate(p1startdate);
-        stProjectstage.setEnddate(p1enddate);
-        stProjectstageService.insert(stProjectstage);
+        if(isAdd){
+            stProjectstage.setStartdate(p1startdate);
+            stProjectstage.setEnddate(p1enddate);
+            stProjectstageService.insert(stProjectstage);
+        }else {
+            stProjectstageService.update(stProjectstage);
+        }
 
+
+        if(isAdd==false){
+            stProjectstage= stProjectstageService.queryByNum(proNum,"P2");
+        }
         stProjectstage.setProjectstage("P2");
         stProjectstage.setStageradio(p2radio);
-        stProjectstage.setStartdate(p2startdate);
-        stProjectstage.setEnddate(p2enddate);
-        stProjectstageService.insert(stProjectstage);
+        if(isAdd){
+            stProjectstage.setStartdate(p2startdate);
+            stProjectstage.setEnddate(p2enddate);
+            stProjectstageService.insert(stProjectstage);
+        }else {
+            stProjectstageService.update(stProjectstage);
+        }
 
+        if(isAdd==false){
+            stProjectstage= stProjectstageService.queryByNum(proNum,"P3");
+        }
         stProjectstage.setProjectstage("P3");
         stProjectstage.setStageradio(p3radio);
-        stProjectstage.setStartdate(p3startdate);
-        stProjectstage.setEnddate(p3enddate);
-        stProjectstageService.insert(stProjectstage);
+        if(isAdd){
+            stProjectstage.setStartdate(p3startdate);
+            stProjectstage.setEnddate(p3enddate);
+            stProjectstageService.insert(stProjectstage);
+        }else {
+            stProjectstageService.update(stProjectstage);
+        }
 
+        if(isAdd==false){
+            stProjectstage= stProjectstageService.queryByNum(proNum,"P4");
+        }
         stProjectstage.setProjectstage("P4");
         stProjectstage.setStageradio(p4radio);
-        stProjectstage.setStartdate(p4startdate);
-        stProjectstage.setEnddate(p4enddate);
-        stProjectstageService.insert(stProjectstage);
+        if(isAdd){
+            stProjectstage.setStartdate(p4startdate);
+            stProjectstage.setEnddate(p4enddate);
+            stProjectstageService.insert(stProjectstage);
+        }else {
+            stProjectstageService.update(stProjectstage);
+        }
 
+        if(isAdd==false){
+            stProjectstage= stProjectstageService.queryByNum(proNum,"P5");
+        }
         stProjectstage.setProjectstage("P5");
         stProjectstage.setStageradio(p5radio);
-        stProjectstage.setStartdate(p5startdate);
-        stProjectstage.setEnddate(p5enddate);
-        stProjectstageService.insert(stProjectstage);
+        if(isAdd){
+            stProjectstage.setStartdate(p5startdate);
+            stProjectstage.setEnddate(p5enddate);
+            stProjectstageService.insert(stProjectstage);
+        }else {
+            stProjectstageService.update(stProjectstage);
+        }
         //插入用户阶段
-        for (int i = 0; i < usernameList.length(); i++) {
-          JSONObject user=usernameList.getJSONObject(i);
-          String username=user.getString("username");
-          String deptName=user.getString("deptName");
-          String SFid= userService.getSFidByName(username);
-          if(SFid!=null){
-             stUserstage.setUserName(username).setSfid(SFid);
-             stUserstage.setDeptname(deptName);
-              stUserstage.setStageradio(0.0);
-              for (int j = 1; j <=5; j++) {
-                  stUserstage.setStagenum("P"+j);
-                  stUserstageService.insert(stUserstage);
 
-              }
-          }
+        if(isAdd==false){
+            for (int i = 0; i < usernameList.length(); i++) {
+                JSONObject user = usernameList.getJSONObject(i);
+                String username = user.getString("username");
+                String deptName=user.getString("deptName");
+                com.zzb.entity.user user1 = new user();
+                user1.setUsername(username);
+                user1.setDeptname(deptName);
+                nameList.add(user1);
+            }
+
+            //
+            StUserstage stUserstage1 = new StUserstage();
+            stUserstage1.setProjectnum(proNum);
+            stUserstage1.setStagenum("P1");
+            List<StUserstage> exitList = stUserstageService.queryAll(stUserstage1);
+            List<user> exitListName = exitList.stream().map(item -> {
+                user tempUser=new user();
+                tempUser.setUsername(item.getUserName());
+                tempUser.setDeptname(item.getDeptname());
+                return tempUser;
+            }).collect(Collectors.toList());
+            List<user> exitListName_temp=stUserstageService.queryAll(stUserstage1).stream().map(item -> {
+                user tempUser=new user();
+                tempUser.setUsername(item.getUserName());
+                tempUser.setDeptname(item.getDeptname());
+                return tempUser;
+            }).collect(Collectors.toList());
+            exitListName.removeAll(nameList);
+           for (user temp:exitListName){
+               stUserstageService.deleteByNameAndNum(proNum,temp.getUsername());
+           }
+
+            System.out.println(exitListName_temp);
+            System.out.println(nameList);
+           //nameList.removeAll(exitListName_temp);
+            List<user> collect = nameList.stream().filter(item -> {
+                return !exitListName_temp.contains(item);
+            }).collect(Collectors.toList());
+
+            for (user temp:collect){
+                String SFid= userService.getSFidByName(temp.getUsername());
+                stUserstage.setUserName(temp.getUsername());
+                stUserstage.setSfid(SFid);
+                stUserstage.setDeptname(temp.getDeptname());
+                stUserstage.setStageradio(0.0);
+                for (int j = 1; j <=5; j++) {
+                    stUserstage.setStagenum("P"+j);
+                    List<StUserstage> list = stUserstageService.queryAll(stUserstage);
+
+                    stUserstageService.insert(stUserstage);
+                }
+            }
+
+        }
+
+        if(isAdd){
+            for (int i = 0; i < usernameList.length(); i++) {
+                JSONObject user=usernameList.getJSONObject(i);
+                String username=user.getString("username");
+                String deptName=user.getString("deptName");
+                String SFid= userService.getSFidByName(username);
+                if(SFid!=null){
+                    stUserstage.setUserName(username);
+                    stUserstage.setSfid(SFid);
+                    stUserstage.setDeptname(deptName);
+                    stUserstage.setStageradio(0.0);
+                    for (int j = 1; j <=5; j++) {
+                        stUserstage.setStagenum("P"+j);
+                        stUserstageService.insert(stUserstage);
+                    }
+                }
+            }
         }
 
 
 return Result.success();
     }
+
+    @RequestMapping("/delete")
+    public Result deleteProject(@RequestBody List<String> list){
+        StProjectabout stProjectabout = new StProjectabout();
+        if(list==null){
+            return Result.failure(ResultCode.PARM_IS_BLANK,"要删除的数据为空");
+        }
+        for (String num : list) {
+            stProjectabout.setProjectnum(num);
+            stProjectaboutService.queryAll(stProjectabout);
+            if(stProjectabout!=null){
+                stProjectaboutService.deleteByNum(num);
+            }else {
+                return Result.failure(ResultCode.INFORMATION_NOT_EXISTS,"要删除的项目不存在");
+            }
+        }
+        return Result.success(ResultCode.SUCCESS);
+    }
+
 }

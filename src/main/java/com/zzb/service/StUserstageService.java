@@ -16,12 +16,9 @@ import java.util.List;
 public interface StUserstageService {
 
     /**
-     * 通过ID查询单条数据
      *
-     * @param id 主键
-     * @return 实例对象
      */
-    StUserstage queryById(Integer id);
+    List<StUserstage> queryByNameandProject(String username,String projectnum);
 
     /**
      * 查询多条数据
@@ -32,6 +29,16 @@ public interface StUserstageService {
      */
     List<StUserstage> queryAllByLimit(int offset, int limit);
 
+    /**
+     * 通过实体作为筛选条件查询
+     *
+     * @param stUserstage 实例对象
+     * @return 对象列表
+     */
+    List<StUserstage> queryAll(StUserstage stUserstage);
+
+
+    int deleteByNameAndNum(String projectNum,String userName);
     /**
      * 新增数据
      *

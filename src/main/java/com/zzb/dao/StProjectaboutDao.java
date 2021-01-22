@@ -21,10 +21,10 @@ public interface StProjectaboutDao {
     /**
      * 通过ID查询单条数据
      *
-     * @param id 主键
+     * @param projectNum 项目号
      * @return 实例对象
      */
-    StProjectabout queryById(Integer id);
+    StProjectabout queryByNum(String projectNum);
 
     /**
      * 查询指定行数据
@@ -64,12 +64,14 @@ public interface StProjectaboutDao {
      */
     int update(StProjectabout stProjectabout);
 
+
+    int deleteByNum(String projectNum);
     /**
      * 通过主键删除数据
      *
-     * @param id 主键
+     * @param stProjectabout 项目
      * @return 影响行数
      */
-    int deleteById(Integer id);
+    int updateByProjrctNum(StProjectabout stProjectabout);
 
 }

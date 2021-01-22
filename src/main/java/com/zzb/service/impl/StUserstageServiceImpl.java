@@ -25,15 +25,11 @@ public class StUserstageServiceImpl implements StUserstageService {
     private StUserstageDao stUserstageDao;
     @Autowired
     StProjectaboutService stProjectaboutService;
-    /**
-     * 通过ID查询单条数据
-     *
-     * @param id 主键
-     * @return 实例对象
-     */
+
+
     @Override
-    public StUserstage queryById(Integer id) {
-        return this.stUserstageDao.queryById(id);
+    public List<StUserstage> queryByNameandProject(String username, String projectnum) {
+        return stUserstageDao.queryByNameandProject(username,projectnum);
     }
 
     /**
@@ -46,6 +42,16 @@ public class StUserstageServiceImpl implements StUserstageService {
     @Override
     public List<StUserstage> queryAllByLimit(int offset, int limit) {
         return this.stUserstageDao.queryAllByLimit(offset, limit);
+    }
+
+    @Override
+    public List<StUserstage> queryAll(StUserstage stUserstage) {
+        return stUserstageDao.queryAll(stUserstage);
+    }
+
+    @Override
+    public int deleteByNameAndNum(String projectNum, String userName) {
+        return stUserstageDao.deleteByNameAndNum(projectNum,userName);
     }
 
     /**
@@ -75,7 +81,7 @@ public class StUserstageServiceImpl implements StUserstageService {
     @Override
     public StUserstage update(StUserstage stUserstage) {
         this.stUserstageDao.update(stUserstage);
-        return this.queryById(stUserstage.getId());
+        return stUserstage;
     }
 
     /**
@@ -116,7 +122,7 @@ public class StUserstageServiceImpl implements StUserstageService {
      */
     @Override
     public List<DepPointVO> getDepPointList() {
-        //TODO 增加查询部门项目数量SQL以及相关文件，整个得到部门报表
+        //TODO增加查询部门项目数量SQL以及相关文件，整个得到部门报表
         return stUserstageDao.getDepPointList();
     }
 

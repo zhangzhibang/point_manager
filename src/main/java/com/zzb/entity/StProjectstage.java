@@ -1,7 +1,7 @@
 package com.zzb.entity;
 
-import java.util.Date;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * (StProjectstage)实体类
@@ -9,6 +9,7 @@ import java.io.Serializable;
  * @author makejava
  * @since 2021-01-15 17:06:10
  */
+
 public class StProjectstage implements Serializable {
     private static final long serialVersionUID = 289187322998197225L;
     
@@ -28,6 +29,10 @@ public class StProjectstage implements Serializable {
     
     private Date enddate;
 
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
     public Integer getId() {
         return id;
@@ -76,5 +81,4 @@ public class StProjectstage implements Serializable {
     public void setEnddate(Date enddate) {
         this.enddate = enddate;
     }
-
 }

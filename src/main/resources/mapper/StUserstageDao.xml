@@ -10,15 +10,15 @@
         <result property="deptname" column="DeptName" jdbcType="VARCHAR"/>
         <result property="stagenum" column="StageNum" jdbcType="VARCHAR"/>
         <result property="stageradio" column="StageRadio" jdbcType="NUMERIC"/>
-        <result property="username" column="UseName" jdbcType="VARCHAR"/>
+        <result property="UserName" column="UserName" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
-    <select id="queryById" resultMap="BaseResultMap">
+    <select id="queryByNameandProject" resultMap="BaseResultMap">
         select
             id, ProjectNum, SFid, DeptName, StageNum, StageRadio
         from dbo.ST_UserStage
-        where id = #{id}
+        where ProjectNum = #{projectnum} and UserName=#{username}
     </select>
 
     <!--查询指定行数据-->
@@ -32,7 +32,7 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="BaseResultMap">
         select
-        id, ProjectNum, SFid, DeptName, StageNum, StageRadio
+        id, ProjectNum, SFid, DeptName, StageNum, StageRadio,UserName
         from dbo.ST_UserStage
         <where>
             <if test="id != null">
@@ -105,12 +105,19 @@
                 StageRadio = #{stageradio},
             </if>
         </set>
-        where id = #{id}
+        where  ProjectNum = #{projectnum} and  UserName=#{UserName}
     </update>
 
     <!--通过主键删除-->
     <delete id="deleteById">
         delete from dbo.ST_UserStage where id = #{id}
     </delete>
+
+    <update id="deleteByNameAndNum">
+        update ST_UserStage set showstatus=0 where ProjectNum=#{projectNum} and UserName=#{userName}
+    </update>
+
+
+
 
 </mapper>

@@ -29,15 +29,16 @@ public class StProjectaboutServiceImpl implements StProjectaboutService {
 
     BigDecimal a;
     BigDecimal b;
-    /**
-     * 通过ID查询单条数据
-     *
-     * @param id 主键
-     * @return 实例对象
-     */
+
+
     @Override
-    public StProjectabout queryById(Integer id) {
-        return this.stProjectaboutDao.queryById(id);
+    public StProjectabout queryByNum(String projectNum) {
+        return stProjectaboutDao.queryByNum(projectNum);
+    }
+
+    @Override
+    public List<StProjectabout> queryAll(StProjectabout stProjectabout) {
+        return stProjectaboutDao.queryAll(stProjectabout);
     }
 
     /**
@@ -263,8 +264,19 @@ public class StProjectaboutServiceImpl implements StProjectaboutService {
     @Override
     public StProjectabout update(StProjectabout stProjectabout) {
         this.stProjectaboutDao.update(stProjectabout);
-        return this.queryById(stProjectabout.getId());
+        return stProjectabout;
     }
+
+    @Override
+    public int updateByProjrctNum(StProjectabout stProjectabout) {
+        return stProjectaboutDao.updateByProjrctNum(stProjectabout);
+    }
+
+    @Override
+    public int deleteByNum(String projectNum) {
+        return stProjectaboutDao.deleteByNum(projectNum);
+    }
+
 
     /**
      * 通过主键删除数据
@@ -272,8 +284,5 @@ public class StProjectaboutServiceImpl implements StProjectaboutService {
      * @param id 主键
      * @return 是否成功
      */
-    @Override
-    public boolean deleteById(Integer id) {
-        return this.stProjectaboutDao.deleteById(id) > 0;
-    }
+
 }

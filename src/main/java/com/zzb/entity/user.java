@@ -1,5 +1,7 @@
 package com.zzb.entity;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -8,16 +10,17 @@ import java.io.Serializable;
  * @author makejava
  * @since 2021-01-20 10:07:51
  */
+@Data
 public class user implements Serializable {
     private static final long serialVersionUID = 334572739380954981L;
     
     private Object userid;
     
-    private Object username;
+    private String username;
     
     private Object userkqid;
     
-    private Object deptname;
+    private String deptname;
     
     private Object dtptid;
 
@@ -30,11 +33,11 @@ public class user implements Serializable {
         this.userid = userid;
     }
 
-    public Object getUsername() {
+    public String getUsername() {
         return username;
     }
 
-    public void setUsername(Object username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 
@@ -46,11 +49,11 @@ public class user implements Serializable {
         this.userkqid = userkqid;
     }
 
-    public Object getDeptname() {
+    public String getDeptname() {
         return deptname;
     }
 
-    public void setDeptname(Object deptname) {
+    public void setDeptname(String deptname) {
         this.deptname = deptname;
     }
 
