@@ -22,7 +22,7 @@ public class dateUtil {
     public static RadioPO  SetRadio(List<InformationPO> all) throws ParseException {
         RadioPO radioPO=new RadioPO();
         List<InformationPO> list = all.stream().filter(item -> {
-            return item.getStartdate() != null && item.getEnddate() != null;
+            return item.getStartdate() != null && item.getEnddate() != null&!"".equals(item.getStartdate())&&!"".equals(item.getEnddate());
         }).collect(Collectors.toList());
         DateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
         Calendar Afterdate = Calendar.getInstance();
@@ -33,40 +33,33 @@ public class dateUtil {
         double radio2020=0.0;
         BigDecimal a;//除数
         BigDecimal b;//被除数
-//        for (int i=0;i<list.size();i++){
-//            Afterdate.setTime(list.get(i).getStartdate());
-//            if (Afterdate.get(Calendar.YEAR)==2099) {
-//                index=i-1;
-//                break;
-//            }
-//        }
         if(!list.isEmpty()){
             Long countTime = daysBetween(list.get(0).getStartdate(), list.get(list.size() - 1).getEnddate());
             b=new BigDecimal(String.valueOf(countTime));
-            Afterdate.setTime(list.get(list.size() - 1).getEnddate());
-            Beforedate.setTime(list.get(0).getStartdate());
+            Afterdate.setTime(dateFormat1.parse(list.get(list.size() - 1).getEnddate()));
+            Beforedate.setTime(dateFormat1.parse(list.get(0).getStartdate()));
             if(Beforedate.get(Calendar.YEAR)==2018){
                 if(Afterdate.get(Calendar.YEAR)==2018){
                   radio2018=1.0;
                 }else if(Afterdate.get(Calendar.YEAR)==2019){
-                    a=new BigDecimal(String.valueOf(daysBetween(list.get(0).getStartdate(), dateFormat1.parse("2018-12-31"))));
+                    a=new BigDecimal(String.valueOf(daysBetween(list.get(0).getStartdate(), "2018-12-31")));
                     radio2018= a.divide(b,2,BigDecimal.ROUND_HALF_UP).doubleValue();
-                    a=new BigDecimal(String.valueOf( daysBetween(dateFormat1.parse("2019-01-01"),  list.get(list.size() - 1).getEnddate())));
+                    a=new BigDecimal(String.valueOf( daysBetween("2019-01-01",  list.get(list.size() - 1).getEnddate())));
                     radio2019 = a.divide(b,2,BigDecimal.ROUND_HALF_UP).doubleValue();
                 }else  if(Afterdate.get(Calendar.YEAR)==2020){
-                    a=new BigDecimal(String.valueOf(daysBetween(list.get(0).getStartdate(), dateFormat1.parse("2018-12-31"))));
+                    a=new BigDecimal(String.valueOf(daysBetween(list.get(0).getStartdate(), "2018-12-31")));
                     radio2018=a.divide(b,2,BigDecimal.ROUND_HALF_UP).doubleValue();
                     radio2019 = new BigDecimal("365.0").divide(b,2,BigDecimal.ROUND_HALF_UP).doubleValue();
-                    a=new BigDecimal(String.valueOf(daysBetween(dateFormat1.parse("2020-01-01"), list.get(list.size() - 1).getEnddate())));
+                    a=new BigDecimal(String.valueOf(daysBetween("2020-01-01", list.get(list.size() - 1).getEnddate())));
                     radio2020=a.divide(b,2,BigDecimal.ROUND_HALF_UP).doubleValue();
                 }
             }else if(Beforedate.get(Calendar.YEAR)==2019){
                 if(Afterdate.get(Calendar.YEAR)==2019){
                     radio2019=1.0;
                 }else if(Afterdate.get(Calendar.YEAR)==2020){
-                    a=new BigDecimal(String.valueOf(daysBetween(list.get(0).getStartdate(), dateFormat1.parse("2019-12-31"))));
+                    a=new BigDecimal(String.valueOf(daysBetween(list.get(0).getStartdate(), "2019-12-31")));
                     radio2019=a.divide(b,2,BigDecimal.ROUND_HALF_UP).doubleValue();
-                    a=new BigDecimal(String.valueOf(daysBetween(dateFormat1.parse("2020-01-01"), list.get(list.size() - 1).getEnddate())));
+                    a=new BigDecimal(String.valueOf(daysBetween("2020-01-01", list.get(list.size() - 1).getEnddate())));
                     radio2020= a.divide(b,2,BigDecimal.ROUND_HALF_UP).doubleValue();
                 }
             }else {
@@ -89,12 +82,13 @@ public class dateUtil {
         return year;
     }
 
-    public static Long daysBetween(Date smdate,Date bdate) throws ParseException
+    public static Long daysBetween(String smdate,String bdate) throws ParseException
     {
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("YYYY-MM-dd");
         Calendar cal = Calendar.getInstance();
-        cal.setTime(smdate);
+        cal.setTime(simpleDateFormat.parse(smdate));
         long time1 = cal.getTimeInMillis();
-        cal.setTime(bdate);
+        cal.setTime(simpleDateFormat.parse(bdate));
         long time2 = cal.getTimeInMillis();
         long between_days=(time2-time1)/(1000*3600*24);
         return between_days;

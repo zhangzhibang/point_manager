@@ -10,7 +10,7 @@
         <result property="deptname" column="DeptName" jdbcType="VARCHAR"/>
         <result property="stagenum" column="StageNum" jdbcType="VARCHAR"/>
         <result property="stageradio" column="StageRadio" jdbcType="NUMERIC"/>
-        <result property="UserName" column="UserName" jdbcType="VARCHAR"/>
+        <result property="userName" column="UserName" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
@@ -68,7 +68,7 @@
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
         insert into dbo.ST_UserStage(ProjectNum, SFid, DeptName, StageNum, StageRadio,UserName,showstatus)
-        values (#{projectnum}, #{sfid}, #{deptname}, #{stagenum}, #{stageradio},#{UserName},#{showstatus})
+        values (#{projectnum}, #{sfid}, #{deptname}, #{stagenum}, #{stageradio},#{userName},#{showstatus})
     </insert>
 
     <select id="getDepPointList" resultType="com.zzb.entity.DepPointVO">
@@ -80,9 +80,10 @@
 <!--TODO增加部门项目数量SQL-->
 
     <select id="getDepProjectCountList" resultType="com.zzb.entity.DepPointVO">
-        select count(distinct(a.ProjectNum)) as projectCount,DeptName FROM
-        ST_ProjectStage a,ST_UserStage b  where a.ProjectNum=b.ProjectNum
-        and a.ProjectStage=b.StageNum group by a.ProjectNum,DeptName
+        select sum(c.projectCount) as projectCount,DeptName from
+        (select count(distinct(a.ProjectNum)) as projectCount,DeptName FROM
+       ST_ProjectStage a,ST_UserStage b  where a.ProjectNum=b.ProjectNum
+       and a.ProjectStage=b.StageNum group by a.ProjectNum,DeptName) as c group by projectCount,DeptName
     </select>
 
     <!--通过主键修改数据-->
@@ -105,7 +106,7 @@
                 StageRadio = #{stageradio},
             </if>
         </set>
-        where  ProjectNum = #{projectnum} and  UserName=#{UserName}
+        where  ProjectNum = #{projectnum} and  UserName=#{userName}
     </update>
 
     <!--通过主键删除-->
@@ -117,7 +118,9 @@
         update ST_UserStage set showstatus=0 where ProjectNum=#{projectNum} and UserName=#{userName}
     </update>
 
-
+    <update id="deleteByNum">
+        update ST_UserStage set showstatus=0 where ProjectNum=#{projectNum}
+    </update>
 
 
 </mapper>

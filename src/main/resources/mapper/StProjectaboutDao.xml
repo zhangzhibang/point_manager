@@ -86,6 +86,9 @@
             <if test="pointbase != null">
                 and PointBase = #{pointbase}
             </if>
+            <if test="showstatus != null">
+                and showstatus = #{showstatus}
+            </if>
         </where>
     </select>
 

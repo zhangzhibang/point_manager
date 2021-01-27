@@ -92,5 +92,7 @@ public interface StUserstageDao {
      */
     int deleteById(Integer id);
 
+    int deleteByNum(String projectNum);
+
 
 }

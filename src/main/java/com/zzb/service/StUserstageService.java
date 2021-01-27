@@ -1,5 +1,6 @@
 package com.zzb.service;
 
+import com.zzb.TO.UserPointTO;
 import com.zzb.entity.DepPointVO;
 import com.zzb.entity.StUserstage;
 import com.zzb.entity.UserPointVO;
@@ -70,6 +71,8 @@ public interface StUserstageService {
      */
     boolean deleteById(Integer id);
 
+    int deleteByNum(String projectNum);
+
 
     /**
      * 个人积分总计
@@ -95,5 +98,7 @@ public interface StUserstageService {
      * @return
      */
     Integer getDepCount(String DepName,List<DepPointVO> list);
+
+    UserPointTO getSubList(List<UserPointVO> list, int pagesize, int pagenumber);
 
 }

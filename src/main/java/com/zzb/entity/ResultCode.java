@@ -8,6 +8,7 @@ public enum ResultCode {
     成功
      */
     SUCCESS(200,"成功"),
+    FAILURE(300,"失败"),
     RESULT_NULL(201,"查询成功但查询结果为null"),
     INFORMATION_HAS_EXISTS(205,"信息已存在"),
     INFORMATION_NOT_EXISTS(204,"信息不存在"),
@@ -25,7 +26,10 @@ public enum ResultCode {
     USER_LOGIN_ERROR(2002,"账号密码错误"),
     USER_ACCOUNT_FORBIDDEN(2003,"账户被禁用"),
     USER_NOT_EXISTS(2004,"用户不存在"),
-    USER_HAS_EXISTS(2005,"用户已存在");
+    USER_HAS_EXISTS(2005,"用户已存在"),
+    USER_FORBIDDEN(2003,"权限不足"),
+
+    UNKNOWN_ERROR(3004,"未知异常");
     private Integer code;
     private String message;
 

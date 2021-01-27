@@ -1,7 +1,6 @@
 package com.zzb.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * (StProjectstage)实体类
@@ -25,9 +24,9 @@ public class StProjectstage implements Serializable {
     */
     private Double stageradio;
     
-    private Date startdate;
+    private String startdate;
     
-    private Date enddate;
+    private String enddate;
 
 
     public static long getSerialVersionUID() {
@@ -66,19 +65,19 @@ public class StProjectstage implements Serializable {
         this.stageradio = stageradio;
     }
 
-    public Date getStartdate() {
+    public String getStartdate() {
         return startdate;
     }
 
-    public void setStartdate(Date startdate) {
+    public void setStartdate(String startdate) {
         this.startdate = startdate;
     }
 
-    public Date getEnddate() {
+    public String getEnddate() {
         return enddate;
     }
 
-    public void setEnddate(Date enddate) {
+    public void setEnddate(String enddate) {
         this.enddate = enddate;
     }
 }

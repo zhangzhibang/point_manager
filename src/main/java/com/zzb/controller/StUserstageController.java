@@ -1,7 +1,12 @@
 package com.zzb.controller;
 
+import com.zzb.TO.UserPointTO;
 import com.zzb.entity.*;
 import com.zzb.service.StUserstageService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.subject.Subject;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +19,7 @@ import java.util.stream.Collectors;
 /**
  * (StUserstage)表控制层
  *
- * @author makejava
+ * @author zzbang
  * @since 2021-01-15 17:06:34
  */
 @RestController
@@ -27,25 +32,17 @@ public class StUserstageController {
     @Resource
     private StUserstageService stUserstageService;
 
+
     /**
-     * 通过主键查询单条数据
-     *
-     * @param
-     * @return 单条数据
+     * 获取部门的积分
+     * @return
      */
-//    @GetMapping("selectOne")
-//    public StUserstage selectOne(Integer id) {
-//        return this.stUserstageService.queryById(id);
-//    }
-
-
     @GetMapping("/getDepReportList")
+    @RequiresRoles("admin")
     public Result getDepReportList(){
 
         List<DepPointVO> depPointList = stUserstageService.getDepPointList();
         List<DepPointVO> depProjectCountList = stUserstageService.getDepProjectCountList();
-        System.out.println(depPointList);
-        System.out.println(depProjectCountList);
         List<DepPointVO> collect = depPointList.stream().map(item -> {
             Integer depCount = stUserstageService.getDepCount(item.getDeptName(), depProjectCountList);
             item.setProjectCount(depCount);
@@ -54,12 +51,40 @@ public class StUserstageController {
         return  Result.success(collect);
     }
 
+    /**
+     * 获取所有用户的积分
+     * @param pagesize
+     * @param pagenumber
+     * @return
+     */
     @GetMapping("/getUserPointReportList")
-    public Result getUserPointReportList(){
-        List<UserPointVO> userPoint = stUserstageService.getUserPoint();
-        return Result.success(userPoint);
+    public Result getUserPointReportList(int pagesize,int pagenumber,String username){
+        if(StringUtils.isEmpty(username)||username==null) {
+            Subject subject = SecurityUtils.getSubject();
+            //代码方式
+            if (subject.hasRole("admin")) {
+                List<UserPointVO> userPoint = stUserstageService.getUserPoint();
+                UserPointTO userPointTO = stUserstageService.getSubList(userPoint, pagesize, pagenumber);
+                return Result.Searchsuccess(userPointTO.getList(),userPointTO.getTotal());
+            } else {
+                return Result.failure(ResultCode.USER_FORBIDDEN);
+            }
+        }else {
+            List<UserPointVO> userPoint = stUserstageService.getUserPoint();
+            List<UserPointVO> collect = userPoint.stream().filter(item -> item.getName().equals(username)).collect(Collectors.toList());
+            UserPointTO userPointTO = stUserstageService.getSubList(collect, pagesize, pagenumber);
+            return Result.Searchsuccess(userPointTO.getList(),userPointTO.getTotal());
+        }
+
     }
+
+    /**
+     * 编辑用户阶段占比
+     * @param userStageVO
+     * @return
+     */
     @RequestMapping("/setUserRadio")
+    @RequiresRoles("admin")
     public Result updateUser(@RequestBody UserStageVO userStageVO){
 //TODO 编辑用户各阶段比例接口
         StUserstage stUserstage = new StUserstage();
@@ -98,7 +123,9 @@ public class StUserstageController {
     }
 
     @RequestMapping("/deleteUser")
-    public Result deleteUserStage(StUserstage stUserstage){
+    @RequiresRoles("admin")
+    public Result deleteUserStage(@RequestBody StUserstage stUserstage){
+        System.out.println(stUserstage);
         if(stUserstage==null){
             return Result.failure(ResultCode.PARM_IS_BLANK,"传入数据为空");
         }else {
@@ -108,7 +135,7 @@ public class StUserstageController {
                 return Result.failure(ResultCode.PARM_IS_BLANK,"用户名或项目号为空");
             }
         }
-        return Result.success(ResultCode.SUCCESS,"删除用户成功！");
+        return Result.success();
     }
 
 }

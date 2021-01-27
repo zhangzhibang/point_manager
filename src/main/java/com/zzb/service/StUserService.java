@@ -1,24 +1,24 @@
 package com.zzb.service;
 
-import com.zzb.entity.user;
+import com.zzb.entity.StUser;
 
 import java.util.List;
 
 /**
- * (HrKquserlist)表服务接口
+ * (StUser)表服务接口
  *
  * @author makejava
- * @since 2021-01-20 10:07:51
+ * @since 2021-01-25 13:38:53
  */
-public interface userService {
+public interface StUserService {
 
     /**
      * 通过ID查询单条数据
      *
-     * @param userid 主键
+     * @param id 主键
      * @return 实例对象
      */
-    user queryById(Object userid);
+    StUser queryById(Integer id);
 
     /**
      * 查询多条数据
@@ -27,35 +27,36 @@ public interface userService {
      * @param limit 查询条数
      * @return 对象列表
      */
-    List<user> queryAllByLimit(int offset, int limit);
+    List<StUser> queryAllByLimit(int offset, int limit);
 
-
-    List<user> queryAll(user user);
+    List<StUser> queryAll(StUser stUser);
 
     String getSFidByName(String username);
+
+    StUser queryBySF(String sfid);
 
     /**
      * 新增数据
      *
-     * @param user 实例对象
+     * @param stUser 实例对象
      * @return 实例对象
      */
-    user insert(user user);
+    StUser insert(StUser stUser);
 
     /**
      * 修改数据
      *
-     * @param user 实例对象
+     * @param stUser 实例对象
      * @return 实例对象
      */
-    user update(user user);
+    StUser update(StUser stUser);
 
     /**
      * 通过主键删除数据
      *
-     * @param userid 主键
+     * @param id 主键
      * @return 是否成功
      */
-    boolean deleteById(Object userid);
+    boolean deleteById(Integer id);
 
 }

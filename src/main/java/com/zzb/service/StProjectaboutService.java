@@ -1,8 +1,10 @@
 package com.zzb.service;
 
+import com.zzb.TO.selectTO;
 import com.zzb.entity.InformationPO;
 import com.zzb.entity.InformationVO;
 import com.zzb.entity.StProjectabout;
+
 import java.util.List;
 
 /**
@@ -70,5 +72,7 @@ public interface StProjectaboutService {
 
 
     int deleteByNum(String projectNum);
+
+    selectTO resultSub(int pagesize, int pagenumber,List<InformationVO> collect);
 
 }

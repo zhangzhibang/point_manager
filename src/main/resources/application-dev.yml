@@ -19,6 +19,7 @@ mybatis:
   type-aliases-package: com.zzb.entity
   configuration:
     log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
+    mapUnderscoreToCamelCase: true
 pagehelper:
   reasonable: true
   support-methods-arguments: true

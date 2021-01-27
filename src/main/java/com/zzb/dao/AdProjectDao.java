@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * (AdProject)表数据库访问层
  *
- * @author makejava
+ * @author zzbang
  * @since 2020-10-26 14:49:00
  */
 @Mapper

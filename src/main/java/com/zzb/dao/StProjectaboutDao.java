@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * (StProjectabout)表数据库访问层
  *
- * @author makejava
+ * @author zzbang
  * @since 2021-01-15 17:03:19
  */
 @Mapper

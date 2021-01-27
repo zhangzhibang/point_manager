@@ -56,4 +56,6 @@ public interface StProjectstageService {
      */
     boolean deleteById(Integer id);
 
+    int deleteByNum(String projectnum);
+
 }

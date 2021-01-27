@@ -86,4 +86,9 @@ public class StProjectstageServiceImpl implements StProjectstageService {
     public boolean deleteById(Integer id) {
         return this.stProjectstageDao.deleteById(id) > 0;
     }
+
+    @Override
+    public int deleteByNum(String projectnum) {
+        return stProjectstageDao.deleteByNum(projectnum);
+    }
 }

@@ -1,7 +1,8 @@
 package com.zzb.service.impl;
 
-import com.zzb.entity.*;
+import com.zzb.TO.selectTO;
 import com.zzb.dao.StProjectaboutDao;
+import com.zzb.entity.*;
 import com.zzb.service.StProjectaboutService;
 import com.zzb.service.StUserstageService;
 import com.zzb.utils.dateUtil;
@@ -26,6 +27,8 @@ public class StProjectaboutServiceImpl implements StProjectaboutService {
     private StProjectaboutDao stProjectaboutDao;
     @Autowired
     private StUserstageService stUserstageService;
+    @Resource
+    private StProjectaboutService stProjectaboutService;
 
     BigDecimal a;
     BigDecimal b;
@@ -275,6 +278,50 @@ public class StProjectaboutServiceImpl implements StProjectaboutService {
     @Override
     public int deleteByNum(String projectNum) {
         return stProjectaboutDao.deleteByNum(projectNum);
+    }
+
+    @Override
+    public selectTO resultSub(int pagesize, int pagenumber,List<InformationVO> collect) {
+        selectTO selectTO = new selectTO();
+        int pagecount=0;
+      List<InformationVO> subList=new ArrayList<>();
+        int totalcount=collect.size();
+        int m=totalcount%pagesize;
+        if  (m>0){
+            pagecount=totalcount/pagesize+1;
+        }else{
+            pagecount=totalcount/pagesize;
+        }
+
+        if (totalcount==0){
+            subList= collect.subList(0,0);
+            selectTO.setList(Collections.emptyList());
+            selectTO.setTotal(0);
+            return selectTO;
+        }else{
+            if(totalcount<pagesize){
+                subList= collect.subList(0,totalcount);
+                selectTO.setTotal(totalcount);
+                selectTO.setList(subList);
+                return selectTO;
+            }
+            if (pagenumber==pagecount){
+                subList= collect.subList((pagenumber-1)*pagesize,totalcount);
+            }else if(pagenumber<pagecount){
+                if(pagenumber<0||pagenumber==0){
+                    subList=collect.subList(0,pagesize);
+                }else {
+                    subList= collect.subList((pagenumber-1)*pagesize,pagesize*(pagenumber));
+                }
+            }else {
+                subList= collect.subList((pagenumber-1)*pagesize,totalcount);
+            }
+
+
+        }
+        selectTO.setTotal(totalcount);
+        selectTO.setList(subList);
+        return selectTO;
     }
 
 

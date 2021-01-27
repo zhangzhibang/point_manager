@@ -8,8 +8,8 @@
         <result property="projectnum" column="ProjectNum" jdbcType="VARCHAR"/>
         <result property="projectstage" column="ProjectStage" jdbcType="VARCHAR"/>
         <result property="stageradio" column="StageRadio" jdbcType="NUMERIC"/>
-        <result property="startdate" column="StartDate" jdbcType="TIMESTAMP"/>
-        <result property="enddate" column="EndDate" jdbcType="TIMESTAMP"/>
+        <result property="startdate" column="StartDate" jdbcType="VARCHAR"/>
+        <result property="enddate" column="EndDate" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
@@ -94,6 +94,10 @@
     <!--通过主键删除-->
     <delete id="deleteById">
         delete from dbo.ST_ProjectStage where id = #{id}
+    </delete>
+
+    <delete id="deleteByNum">
+        delete from dbo.ST_ProjectStage where ProjectNum = #{projectnum}
     </delete>
 
 </mapper>

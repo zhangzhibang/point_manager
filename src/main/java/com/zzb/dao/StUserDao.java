@@ -1,29 +1,24 @@
 package com.zzb.dao;
 
-import com.zzb.entity.user;
-import org.apache.ibatis.annotations.Mapper;
+import com.zzb.entity.StUser;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 /**
- * (HrKquserlist)表数据库访问层
+ * (StUser)表数据库访问层
  *
  * @author makejava
- * @since 2021-01-20 10:07:51
+ * @since 2021-01-25 13:43:07
  */
-@Mapper
-@Repository
-public interface userDao {
+public interface StUserDao {
 
     /**
      * 通过ID查询单条数据
      *
-     * @param userid 主键
+     * @param id 主键
      * @return 实例对象
      */
-    user queryById(Object userid);
+    StUser queryById(Integer id);
 
     /**
      * 查询指定行数据
@@ -32,41 +27,43 @@ public interface userDao {
      * @param limit 查询条数
      * @return 对象列表
      */
-    List<user> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
+    List<StUser> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
 
 
     /**
      * 通过实体作为筛选条件查询
      *
-     * @param user 实例对象
+     * @param stUser 实例对象
      * @return 对象列表
      */
-    List<user> queryAll(user user);
+    List<StUser> queryAll(StUser stUser);
 
     String getSFidByName(String username);
+
+    StUser queryBySF(String sfid);
 
     /**
      * 新增数据
      *
-     * @param user 实例对象
+     * @param stUser 实例对象
      * @return 影响行数
      */
-    int insert(user user);
+    int insert(StUser stUser);
 
     /**
      * 修改数据
      *
-     * @param user 实例对象
+     * @param stUser 实例对象
      * @return 影响行数
      */
-    int update(user user);
+    int update(StUser stUser);
 
     /**
      * 通过主键删除数据
      *
-     * @param userid 主键
+     * @param id 主键
      * @return 影响行数
      */
-    int deleteById(Object userid);
+    int deleteById(Integer id);
 
 }

@@ -1,7 +1,8 @@
 package com.zzb.service.impl;
 
-import com.zzb.entity.*;
+import com.zzb.TO.UserPointTO;
 import com.zzb.dao.StUserstageDao;
+import com.zzb.entity.*;
 import com.zzb.service.StProjectaboutService;
 import com.zzb.service.StUserstageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -95,6 +97,11 @@ public class StUserstageServiceImpl implements StUserstageService {
         return this.stUserstageDao.deleteById(id) > 0;
     }
 
+    @Override
+    public int deleteByNum(String projectNum) {
+        return stUserstageDao.deleteByNum(projectNum);
+    }
+
     /**
      * 获取员工积分报表
      *
@@ -106,7 +113,7 @@ public class StUserstageServiceImpl implements StUserstageService {
         List<InformationPO> list = stProjectaboutService.queryAllInformation();
         List<UserPointVO> userPointVOList=new ArrayList<>();
         list.stream().map(item->{
-            UserPointVO total = getTotal(item.getSfid(), item.getUsername(), list);
+            UserPointVO total = getTotal(item.getSfid(), item.getUsername(),item.getDeptname(), list);
             userPointVOList.add(total);
             return item;
         }).collect(Collectors.toList());
@@ -152,6 +159,48 @@ public class StUserstageServiceImpl implements StUserstageService {
         return null;
     }
 
+    @Override
+    public UserPointTO getSubList(List<UserPointVO> userPoint, int pagesize, int pagenumber) {
+        int pagecount=0;
+        UserPointTO userPointTO = new UserPointTO();
+        List<UserPointVO> subList=new ArrayList<>();
+        int totalcount=userPoint.size();
+        int m=totalcount%pagesize;
+        System.out.println(m);
+        if  (m>0){
+            pagecount=totalcount/pagesize+1;
+        }else{
+            pagecount=totalcount/pagesize;
+        }
+
+        if(totalcount<pagesize){
+            subList= userPoint.subList(0,totalcount);
+            userPointTO.setTotal(totalcount);
+            userPointTO.setList(subList);
+            return userPointTO;
+        }
+        if (totalcount==0){
+            subList= userPoint.subList(0,0);
+            userPointTO.setList(Collections.emptyList());
+            userPointTO.setTotal(0);
+        }else{
+            if (pagenumber==pagecount){
+                subList= userPoint.subList((pagenumber-1)*pagesize,totalcount);
+            }else if(pagenumber<pagecount){
+                if(pagenumber<0||pagenumber==0){
+                    subList=userPoint.subList(0,pagesize);
+                }else {
+                    subList= userPoint.subList((pagenumber-1)*pagesize,pagesize*(pagenumber));
+                }
+            }else {
+                subList= userPoint.subList((pagenumber-1)*pagesize,totalcount);
+            }
+        }
+        userPointTO.setList(subList);
+        userPointTO.setTotal(totalcount);
+        return userPointTO;
+    }
+
     /**
      * 获取指定员工的所有项目以及积分，进行累加之后得到一个中间数据UserPointVO，
      * 封装了该用户的总积分以及每年的对应积分
@@ -161,7 +210,7 @@ public class StUserstageServiceImpl implements StUserstageService {
      * @return
      */
 
-    public static UserPointVO getTotal(String SFid,String name,List<InformationPO> list){
+    public static UserPointVO getTotal(String SFid,String name,String depName,List<InformationPO> list){
         double total=0,point2018=0,point2019=0,point2020=0;
         UserPointVO userPointVO = new UserPointVO();
         List<InformationPO> collect = list.stream().filter(item -> {
@@ -174,7 +223,9 @@ public class StUserstageServiceImpl implements StUserstageService {
             point2020+=info.getPoint2020();
         }
         userPointVO.setSFid(SFid)
+                .setDeptname(depName)
                 .setName(name)
+                .setCount(collect.size()/5)
                 .setTotal(total)
                 .setPoint2018(point2018)
                 .setPoint2019(point2019)

@@ -3,7 +3,6 @@ package com.zzb.entity;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
 /**
  * @author zzbang
  */
@@ -41,12 +40,12 @@ public class InformationPO implements Serializable {
     /**
      * 阶段开始日期
      */
-    private Date startdate;
+    private String startdate;
 
     /**
      * 阶段结束日期
      */
-    private Date enddate;
+    private String enddate;
 
     /**
      * 员工编号
