@@ -1,5 +1,5 @@
 package com.zzb.entity;
-/**
+/**返回结果分类包装
  * @author zzbang
  */
 

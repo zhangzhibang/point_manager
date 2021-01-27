@@ -1,7 +1,7 @@
 package com.zzb.utils;
 
-import com.zzb.entity.InformationPO;
-import com.zzb.entity.RadioPO;
+import com.zzb.PO.InformationPO;
+import com.zzb.PO.RadioPO;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;

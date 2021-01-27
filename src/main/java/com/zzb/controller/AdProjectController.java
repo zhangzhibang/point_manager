@@ -1,11 +1,12 @@
 package com.zzb.controller;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.zzb.entity.AdProject;
 import com.zzb.entity.Result;
 import com.zzb.service.AdProjectService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -14,6 +15,7 @@ import java.util.Map;
 
 /**
  *项目管理相关controller
+ * @author zzbang
  */
 @RestController
 @RequestMapping("adProject")

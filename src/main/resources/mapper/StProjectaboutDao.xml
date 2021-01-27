@@ -17,7 +17,7 @@
         update dbo.ST_ProjectAbout set showstatus=0 where ProjectNum=#{projectNum} and showstatus=1
     </update>
 
-    <!--    <resultMap id="POresultMap" type="com.zzb.entity.InformationPO">-->
+    <!--    <resultMap id="POresultMap" type="com.zzb.PO.InformationPO">-->
 <!--        <result property="projectnum" column="ProjectNum" jdbcType="VARCHAR"/>-->
 <!--        <result property="projecttype" column="ProjectType" jdbcType="VARCHAR"/>-->
 <!--        <result property="projectrank" column="ProjectRank" jdbcType="VARCHAR"/>-->
@@ -49,7 +49,7 @@
         limit #{offset}, #{limit}
     </select>
 
-    <select id="queryAllInformation" resultType="com.zzb.entity.InformationPO">
+    <select id="queryAllInformation" resultType="com.zzb.PO.InformationPO">
         SELECT a.ProjectNum,d.ProName,ProjectType,a.ProjectRank,a.Score,
                a.PointBase,b.ProjectStage,b.StageRadio,b.StartDate,
                b.EndDate,c.Username,c.DeptName,c.StageRadio as Uradio,

@@ -1,8 +1,11 @@
-package com.zzb.entity;
+package com.zzb.PO;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+/**
+ * 某个用户三年中每年的积分实体类
+ */
 @Data
 @Accessors(chain = true)
 public class RadioPO {

@@ -1,6 +1,8 @@
 package com.zzb.controller;
 
+import com.zzb.PO.InformationPO;
 import com.zzb.TO.selectTO;
+import com.zzb.VO.InformationVO;
 import com.zzb.entity.*;
 import com.zzb.service.StProjectaboutService;
 import com.zzb.service.StProjectstageService;
@@ -48,12 +50,17 @@ public class StProjectaboutController {
     private StProjectstageService stProjectstageService;
 
 
-
+    /**
+     * 查询积分总表，当传入用户名的时候查询单个人积分不需要权限，不传入用户名的时候查询所有需要管理员权限
+     * @param pagesize
+     * @param pagenumber
+     * @param username
+     * @return
+     */
     @GetMapping("selectAll")
     public Result selectAll(int pagesize,int pagenumber,String username) {
         if(StringUtils.isEmpty(username)||username==null){
             Subject subject = SecurityUtils.getSubject();
-            //代码方式
             if (subject.hasRole("admin")) {
                 List<InformationPO> list = stProjectaboutService.queryAllInformation();
                 List<InformationVO> informationVOS = stProjectaboutService.sortList(list);
@@ -76,7 +83,13 @@ public class StProjectaboutController {
     }
 
 
-
+    /**
+     * 项目、项目阶段以及项目参与人员的添加和修改
+     * @param str
+     * @return
+     * @throws JSONException
+     * @throws ParseException
+     */
     @RequestMapping("/add")
     @Transactional
     @RequiresRoles("admin")
@@ -219,7 +232,6 @@ public class StProjectaboutController {
             if(isAdd==false){
                 stUserstageService.deleteByNum(proNum);
             }
-       // if(isAdd){
             for (int i = 0; i < usernameList.length(); i++) {
                 JSONObject user=usernameList.getJSONObject(i);
                 String username=user.getString("username");
@@ -236,12 +248,14 @@ public class StProjectaboutController {
                     }
                 }
             }
-       // }
-
-
-return Result.success();
+            return Result.success();
     }
 
+    /**
+     * 删除项目
+     * @param list
+     * @return
+     */
     @RequestMapping("/delete")
     @Transactional
     @RequiresRoles("admin")
@@ -262,8 +276,5 @@ return Result.success();
         }
         return Result.success(ResultCode.SUCCESS);
     }
-
-
-
 
 }

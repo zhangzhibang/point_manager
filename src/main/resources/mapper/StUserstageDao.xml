@@ -57,7 +57,7 @@
     </select>
 
 
-    <select id="getProjectCountByYear" resultType="com.zzb.entity.projectUserPO">
+    <select id="getProjectCountByYear" resultType="com.zzb.PO.projectUserPO">
 
         select count(distinct(a.ProjectNum)) as projectCount,SFid FROM ST_ProjectStage a,ST_UserStage b
         where a.ProjectStage='P1'and a.ProjectNum=b.ProjectNum
@@ -71,7 +71,7 @@
         values (#{projectnum}, #{sfid}, #{deptname}, #{stagenum}, #{stageradio},#{userName},#{showstatus})
     </insert>
 
-    <select id="getDepPointList" resultType="com.zzb.entity.DepPointVO">
+    <select id="getDepPointList" resultType="com.zzb.VO.DepPointVO">
         SELECT DeptName,SUM(a.PointBase*b.StageRadio*c.StageRadio) as totalPoint
         FROM [Chint.Oa.WorkFlow.lvElecCenter].[dbo].[ST_ProjectAbout] a
             left join ST_ProjectStage b on a.ProjectNum=b.ProjectNum
@@ -79,7 +79,7 @@
     </select>
 <!--TODO增加部门项目数量SQL-->
 
-    <select id="getDepProjectCountList" resultType="com.zzb.entity.DepPointVO">
+    <select id="getDepProjectCountList" resultType="com.zzb.VO.DepPointVO">
         select sum(c.projectCount) as projectCount,DeptName from
         (select count(distinct(a.ProjectNum)) as projectCount,DeptName FROM
        ST_ProjectStage a,ST_UserStage b  where a.ProjectNum=b.ProjectNum

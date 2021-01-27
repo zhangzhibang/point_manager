@@ -1,4 +1,4 @@
-package com.zzb.entity;
+package com.zzb.VO;
 
 import lombok.Data;
 

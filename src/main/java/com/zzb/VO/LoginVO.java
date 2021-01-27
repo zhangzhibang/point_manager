@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 /**
+ * 登陆返回的实体类
  * @author zzbang
  * @create 2021-01-27  10:46
  */

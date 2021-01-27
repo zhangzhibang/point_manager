@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * (StProjectabout)实体类
  *
- * @author makejava
+ * @author zzbang
  * @since 2021-01-15 17:03:16
  */
 @Data

@@ -1,8 +1,8 @@
 package com.zzb.service;
 
 import com.zzb.TO.selectTO;
-import com.zzb.entity.InformationPO;
-import com.zzb.entity.InformationVO;
+import com.zzb.PO.InformationPO;
+import com.zzb.VO.InformationVO;
 import com.zzb.entity.StProjectabout;
 
 import java.util.List;

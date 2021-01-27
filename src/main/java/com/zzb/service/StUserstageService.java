@@ -1,10 +1,10 @@
 package com.zzb.service;
 
 import com.zzb.TO.UserPointTO;
-import com.zzb.entity.DepPointVO;
+import com.zzb.VO.DepPointVO;
 import com.zzb.entity.StUserstage;
-import com.zzb.entity.UserPointVO;
-import com.zzb.entity.projectUserPO;
+import com.zzb.VO.UserPointVO;
+import com.zzb.PO.projectUserPO;
 
 import java.util.List;
 

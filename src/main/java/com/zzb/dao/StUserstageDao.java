@@ -1,8 +1,8 @@
 package com.zzb.dao;
 
-import com.zzb.entity.DepPointVO;
+import com.zzb.VO.DepPointVO;
 import com.zzb.entity.StUserstage;
-import com.zzb.entity.projectUserPO;
+import com.zzb.PO.projectUserPO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -92,6 +92,11 @@ public interface StUserstageDao {
      */
     int deleteById(Integer id);
 
+    /**
+     * 更状态
+     * @param projectNum
+     * @return
+     */
     int deleteByNum(String projectNum);
 
 

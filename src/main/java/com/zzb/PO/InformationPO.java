@@ -1,9 +1,9 @@
-package com.zzb.entity;
+package com.zzb.PO;
 
 import lombok.Data;
 
 import java.io.Serializable;
-/**
+/**数据库查询结果总报表对应展示实体类
  * @author zzbang
  */
 @Data

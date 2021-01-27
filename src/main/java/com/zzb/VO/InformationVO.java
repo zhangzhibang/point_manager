@@ -1,8 +1,12 @@
-package com.zzb.entity;
+package com.zzb.VO;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+/**
+ * @author zzbang
+ * 总报表返回前端实体类
+ */
 @Data
 @Accessors(chain = true)
 public class InformationVO {

@@ -14,8 +14,8 @@ import java.util.Date;
  * @create 2021-01-26  18:58
  */
 public class JWTUtils {
-    // 过期时间5分钟
-    private static final long EXPIRE_TIME = 5 * 60 * 1000;
+    // 过期时间30分钟
+    private static final long EXPIRE_TIME = 30 * 60 * 1000;
 
     /**
      * 校验token是否正确

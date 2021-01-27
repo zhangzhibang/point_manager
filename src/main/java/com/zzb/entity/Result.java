@@ -4,7 +4,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 
-/**
+/**返回统一包装
  * @author zzbang
  */
 @Data

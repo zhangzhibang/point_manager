@@ -1,6 +1,6 @@
 package com.zzb.dao;
 
-import com.zzb.entity.InformationPO;
+import com.zzb.PO.InformationPO;
 import com.zzb.entity.StProjectabout;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -44,7 +44,10 @@ public interface StProjectaboutDao {
      */
     List<StProjectabout> queryAll(StProjectabout stProjectabout);
 
-
+    /**
+     * 查询总表积分
+     * @return
+     */
     List<InformationPO> queryAllInformation();
 
 
@@ -64,10 +67,12 @@ public interface StProjectaboutDao {
      */
     int update(StProjectabout stProjectabout);
 
-
+/**
+ * 删除项目，只更改状态
+ */
     int deleteByNum(String projectNum);
     /**
-     * 通过主键删除数据
+     * 更改项目属性，只更改状态为1的
      *
      * @param stProjectabout 项目
      * @return 影响行数

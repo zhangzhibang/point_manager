@@ -52,11 +52,14 @@ public class StUserController {
         return Result.success(stUsers);
     }
 
+    /**
+     * 对账号密码进行校验，成功登录返回token、用户名以及角色
+     * @param username
+     * @param password
+     * @return
+     */
     @RequestMapping("login")
     public Result login(String username,String password){
-        //获取主体对象
-        //2.将随机盐保存到数据
-        //3.明文密码进行md5 + salt + hash散列
         StUser user=stUserService.queryBySF(username);
         String salt=user.getSalt();
         String md5password = new Md5Hash(password, salt, 1024).toHex();
